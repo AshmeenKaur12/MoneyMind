@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Profile - Smart Finance Coach</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #f4f6fc;
+      --card-color: white;
+      --text-color: #222;
+      --header-color: #1b1f3a;
+      --nav-color: #2e3157;
+      --accent-color: #e94560;
+    }
+
+    body.dark {
+      --bg-color: #121212;
+      --card-color: #1e1e2f;
+      --text-color: #fff;
+      --header-color: #101010;
+      --nav-color: #181818;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      background: var(--bg-color);
+      color: var(--text-color);
+      transition: all 0.3s ease;
+    }
+
+    header {
+      background-color: var(--header-color);
+      color: white;
+      padding: 20px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav {
+      background: var(--nav-color);
+      display: flex;
+      padding: 10px 30px;
+      gap: 20px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 8px 14px;
+      border-radius: 6px;
+    }
+
+    nav a.active,
+    nav a:hover {
+      background: var(--accent-color);
+    }
+
+    .logout-btn {
+      background: var(--accent-color);
+      border: none;
+      color: white;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    main {
+      padding: 30px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: var(--text-color);
+    }
+
+    .card {
+      background: var(--card-color);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      margin-bottom: 30px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group input[type="password"],
+    .form-group input[type="file"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+
+    .btn-save {
+      background: #00b894;
+      color: white;
+    }
+
+    .btn-danger {
+      background: var(--accent-color);
+      color: white;
+    }
+
+    .alert {
+      padding: 10px;
+      border-radius: 8px;
+      margin-top: 10px;
+      font-weight: 600;
+      display: none;
+    }
+
+    .alert.success {
+      background-color: #d4edda;
+      color: #155724;
+      display: block;
+    }
+
+    .alert.error {
+      background-color: #f8d7da;
+      color: #721c24;
+      display: block;
+    }
+
+    .profile-preview {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 10px;
+      border: 2px solid #ccc;
+    }
+
+    .toggle-switch {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Smart Finance Coach</h1>
+    <button class="logout-btn" id="logout-btn">Logout</button>
+  </header>
+
+  <nav>
+    <a href="index.html">Dashboard</a>
+    <a href="transaction.html">Transactions</a>
+    <a href="reports.html">Reports</a>
+    <a href="profile.html" class="active">Profile</a>
+    <a href="settings.html">Settings</a>
+  </nav>
+
+  <main>
+    <h2>User Profile</h2>
+
+    <!-- Profile Card -->
+    <div class="card">
+      <img id="avatarPreview" class="profile-preview" src="https://via.placeholder.com/100" />
+      <form id="profile-form">
+        <div class="form-group">
+          <label for="profile-name">Full Name</label>
+          <input type="text" id="profile-name" required />
+        </div>
+        <div class="form-group">
+          <label for="profile-email">Email</label>
+          <input type="email" id="profile-email" disabled />
+        </div>
+        <div class="form-group">
+          <label for="profile-avatar">Profile Picture</label>
+          <input type="file" id="profile-avatar" accept="image/*" />
+        </div>
+        <button type="submit" class="btn btn-save">Save Profile</button>
+        <div id="profile-alert" class="alert"></div>
+      </form>
+    </div>
+
+    <!-- Password Change -->
+    <div class="card">
+      <h3>Change Password</h3>
+      <form id="password-form">
+        <div class="form-group">
+          <label for="current-password">Current Password</label>
+          <input type="password" id="current-password" required />
+        </div>
+        <div class="form-group">
+          <label for="new-password">New Password</label>
+          <input type="password" id="new-password" required />
+        </div>
+        <div class="form-group">
+          <label for="confirm-password">Confirm New Password</label>
+          <input type="password" id="confirm-password" required />
+        </div>
+        <button type="submit" class="btn btn-save">Change Password</button>
+        <div id="password-alert" class="alert"></div>
+      </form>
+    </div>
+
+    <!-- Theme Toggle -->
+    <div class="card">
+      <h3>Appearance</h3>
+      <div class="toggle-switch">
+        <label for="theme-toggle">Dark Mode</label>
+        <input type="checkbox" id="theme-toggle" />
+      </div>
+    </div>
+
+    <!-- Delete Account -->
+    <div class="card">
+      <h3>Danger Zone</h3>
+      <p>Deleting your account is permanent.</p>
+      <button class="btn btn-danger" id="delete-account">Delete Account</button>
+      <div id="delete-alert" class="alert"></div>
+    </div>
+  </main>
+
+  <script>
+    // Load user and users from localStorage
+    const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+
+    if (!loggedInUser) {
+      window.location.href = 'login.html'; // redirect if not logged in
+    }
+
+    // Elements
+    const profileName = document.getElementById('profile-name');
+    const profileEmail = document.getElementById('profile-email');
+    const profileAvatar = document.getElementById('profile-avatar');
+    const avatarPreview = document.getElementById('avatarPreview');
+    const profileAlert = document.getElementById('profile-alert');
+    const profileForm = document.getElementById('profile-form');
+
+    const themeToggle = document.getElementById('theme-toggle');
+    const logoutBtn = document.getElementById('logout-btn');
+
+    const passwordForm = document.getElementById('password-form');
+    const passwordAlert = document.getElementById('password-alert');
+
+    const deleteBtn = document.getElementById('delete-account');
+    const deleteAlert = document.getElementById('delete-alert');
+
+    // Initialize profile info
+    profileName.value = loggedInUser.name;
+    profileEmail.value = loggedInUser.email;
+    if (loggedInUser.avatar) avatarPreview.src = loggedInUser.avatar;
+
+    // Initialize theme
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark');
+      themeToggle.checked = true;
+    }
+
+    // Theme toggle
+    themeToggle.addEventListener('change', () => {
+      document.body.classList.toggle('dark');
+      localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+    });
+
+    // Logout button
+    logoutBtn.addEventListener('click', () => {
+      localStorage.removeItem('loggedInUser');
+      window.location.href = 'login.html';
+    });
+
+    // Avatar upload preview + save
+    profileAvatar.addEventListener('change', e => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          avatarPreview.src = e.target.result;
+          loggedInUser.avatar = e.target.result;
+          updateUser(loggedInUser);
+          saveLoggedInUser(loggedInUser);
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Profile form submission
+    profileForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const newName = profileName.value.trim();
+      if (!newName) {
+        showAlert(profileAlert, 'Name cannot be empty.', 'error');
+        return;
+      }
+      loggedInUser.name = newName;
+      updateUser(loggedInUser);
+      saveLoggedInUser(loggedInUser);
+      showAlert(profileAlert, 'Profile updated!', 'success');
+    });
+
+    // Password change form
+    passwordForm.addEventListener('submit', e => {
+      e.preventDefault();
+
+      const currentPassword = document.getElementById('current-password').value;
+      const newPassword = document.getElementById('new-password').value;
+      const confirmPassword = document.getElementById('confirm-password').value;
+
+      if (currentPassword !== loggedInUser.password) {
+        showAlert(passwordAlert, 'Current password is incorrect.', 'error');
+        return;
+      }
+
+      if (newPassword.length < 6) {
+        showAlert(passwordAlert, 'New password must be at least 6 characters.', 'error');
+        return;
+      }
+
+      if (newPassword !== confirmPassword) {
+        showAlert(passwordAlert, 'New password and confirmation do not match.', 'error');
+        return;
+      }
+
+      // Update password
+      loggedInUser.password = newPassword;
+      updateUser(loggedInUser);
+      saveLoggedInUser(loggedInUser);
+
+      passwordForm.reset();
+      showAlert(passwordAlert, 'Password changed successfully!', 'success');
+    });
+
+    // Delete account button
+    deleteBtn.addEventListener('click', () => {
+      if (!confirm('Are you sure? This will permanently delete your account and all data.')) return;
+
+      const index = users.findIndex(u => u.email === loggedInUser.email);
+      if (index !== -1) {
+        users.splice(index, 1);
+        localStorage.setItem('users', JSON.stringify(users));
+        localStorage.removeItem('loggedInUser');
+        localStorage.removeItem('finances_' + loggedInUser.email);
+        showAlert(deleteAlert, 'Account deleted.', 'success');
+        setTimeout(() => {
+          window.location.href = 'login.html';
+        }, 2000);
+      }
+    });
+
+    // Helpers
+
+    function updateUser(updatedUser) {
+      const index = users.findIndex(u => u.email === updatedUser.email);
+      if (index !== -1) {
+        users[index] = updatedUser;
+        localStorage.setItem('users', JSON.stringify(users));
+      }
+    }
+
+    function saveLoggedInUser(user) {
+      localStorage.setItem('loggedInUser', JSON.stringify(user));
+    }
+
+    function showAlert(element, message, type) {
+      element.textContent = message;
+      element.className = `alert ${type}`;
+      setTimeout(() => {
+        element.textContent = '';
+        element.className = 'alert';
+      }, 3500);
+    }
+  </script>
+</body>
+</html>
