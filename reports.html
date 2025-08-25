@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Reports - Smart Finance Coach</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      background: #f4f6fc;
+      color: #222;
+    }
+    header {
+      background-color: #1b1f3a;
+      color: white;
+      padding: 20px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 {
+      margin: 0;
+    }
+    nav {
+      background: #2e3157;
+      display: flex;
+      padding: 10px 30px;
+      gap: 20px;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 8px 14px;
+      border-radius: 6px;
+    }
+    nav a.active, nav a:hover {
+      background: #e94560;
+    }
+    main {
+      padding: 30px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+    section {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    h2 {
+      margin-top: 0;
+    }
+    canvas {
+      width: 100% !important;
+      max-height: 300px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Smart Finance Coach</h1>
+    <a href="dashboard.html" style="color: white; font-weight: 600;">← Back to Dashboard</a>
+  </header>
+
+  <nav>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="transactions.html">Transactions</a>
+    <a href="reports.html" class="active">Reports</a>
+    <a href="profile.html">Profile</a>
+    <a href="settings.html">Settings</a>
+  </nav>
+
+  <main>
+    <section>
+      <h2>Monthly Trends</h2>
+      <canvas id="lineChart"></canvas>
+    </section>
+
+    <section>
+      <h2>Category-wise Expenses</h2>
+      <canvas id="pieChart"></canvas>
+    </section>
+
+    <section style="grid-column: span 2;">
+      <h2>Savings Overview</h2>
+      <canvas id="savingsChart"></canvas>
+    </section>
+  </main>
+
+  <script>
+    const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+    const finances = JSON.parse(localStorage.getItem('finances_' + loggedInUser.email)) || [];
+
+    const grouped = {};
+    const categoryTotals = {};
+
+    finances.forEach(f => {
+      const month = f.date.slice(0, 7);
+      if (!grouped[month]) grouped[month] = { income: 0, expense: 0 };
+      grouped[month][f.type] += f.amount;
+
+      if (f.type === 'expense') {
+        categoryTotals[f.category] = (categoryTotals[f.category] || 0) + f.amount;
+      }
+    });
+
+    const months = Object.keys(grouped).sort();
+    const incomes = months.map(m => grouped[m].income || 0);
+    const expenses = months.map(m => grouped[m].expense || 0);
+    const savings = months.map((_, i) => incomes[i] - expenses[i]);
+
+    // Line Chart
+    new Chart(document.getElementById('lineChart'), {
+      type: 'line',
+      data: {
+        labels: months,
+        datasets: [
+          {
+            label: 'Income',
+            data: incomes,
+            borderColor: '#4caf50',
+            fill: false
+          },
+          {
+            label: 'Expenses',
+            data: expenses,
+            borderColor: '#e53935',
+            fill: false
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { position: 'top' } },
+        scales: { y: { beginAtZero: true } }
+      }
+    });
+
+    // Pie Chart
+    new Chart(document.getElementById('pieChart'), {
+      type: 'pie',
+      data: {
+        labels: Object.keys(categoryTotals),
+        datasets: [{
+          data: Object.values(categoryTotals),
+          backgroundColor: ['#f44336', '#2196f3', '#4caf50', '#ff9800', '#9c27b0', '#00bcd4']
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: 'right' }
+        }
+      }
+    });
+
+    // Savings Bar Chart
+    new Chart(document.getElementById('savingsChart'), {
+      type: 'bar',
+      data: {
+        labels: months,
+        datasets: [{
+          label: 'Savings',
+          data: savings,
+          backgroundColor: '#3f51b5'
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: { beginAtZero: true }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login - Smart Finance Coach</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #6b73ff 0%, #000dff 100%);
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      color: #333;
+    }
+    .container {
+      background: #fff;
+      padding: 40px 30px;
+      border-radius: 16px;
+      max-width: 400px;
+      width: 100%;
+      box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 24px;
+      color: #0d47a1;
+      font-weight: 700;
+      font-size: 28px;
+    }
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 14px 16px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      border: 1.8px solid #bbb;
+      font-size: 16px;
+      transition: border-color 0.3s ease;
+    }
+    input[type="email"]:focus,
+    input[type="password"]:focus {
+      border-color: #2962ff;
+      outline: none;
+    }
+    button {
+      width: 100%;
+      padding: 15px;
+      background: #2962ff;
+      border: none;
+      border-radius: 12px;
+      color: white;
+      font-weight: 700;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: 0 8px 15px rgba(41,98,255,0.4);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    button:hover {
+      background-color: #0039cb;
+      box-shadow: 0 10px 20px rgba(0,57,203,0.6);
+    }
+    .links {
+      margin-top: 18px;
+      font-size: 14px;
+      color: #555;
+    }
+    .links a {
+      color: #2962ff;
+      text-decoration: none;
+      font-weight: 600;
+      margin-left: 5px;
+    }
+    .links a:hover {
+      text-decoration: underline;
+    }
+    .error-msg {
+      margin-bottom: 15px;
+      font-weight: 600;
+      font-size: 14px;
+      display: none;
+      padding: 10px;
+      border-radius: 8px;
+      background-color: #ffebee;
+      color: #d32f2f;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Login</h2>
+    <div id="error" class="error-msg"></div>
+    <form id="login-form" novalidate>
+      <input type="email" id="email" placeholder="Email address" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <button type="submit">Login</button>
+    </form>
+    <div class="links">
+      Don't have an account? <a href="signup.html">Sign Up</a> | <a href="forgot-password.html">Forgot Password?</a>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('login-form');
+    const errorDiv = document.getElementById('error');
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      errorDiv.style.display = 'none';
+      errorDiv.textContent = '';
+
+      const email = form.email.value.trim();
+      const password = form.password.value.trim();
+
+      if (!email || !password) {
+        errorDiv.textContent = 'Please enter both email and password.';
+        errorDiv.style.display = 'block';
+        return;
+      }
+
+      const users = JSON.parse(localStorage.getItem('users') || '[]');
+      const user = users.find(u => u.email.toLowerCase() === email.toLowerCase() && u.password === password);
+
+      if (user) {
+        localStorage.setItem('loggedInUser', JSON.stringify(user));
+        window.location.href = 'index.html';
+      } else {
+        errorDiv.textContent = 'Invalid email or password.';
+        errorDiv.style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>

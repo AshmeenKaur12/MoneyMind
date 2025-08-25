@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sign Up - Smart Finance Coach</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #6b73ff 0%, #000dff 100%);
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      color: #333;
+    }
+    .container {
+      background: #fff;
+      padding: 40px 30px;
+      border-radius: 16px;
+      max-width: 400px;
+      width: 100%;
+      box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 24px;
+      color: #0d47a1;
+      font-weight: 700;
+      font-size: 28px;
+    }
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 14px 16px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      border: 1.8px solid #bbb;
+      font-size: 16px;
+      transition: border-color 0.3s ease;
+    }
+    input[type="email"]:focus,
+    input[type="password"]:focus {
+      border-color: #2962ff;
+      outline: none;
+    }
+    button {
+      width: 100%;
+      padding: 15px;
+      background: #2962ff;
+      border: none;
+      border-radius: 12px;
+      color: white;
+      font-weight: 700;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: 0 8px 15px rgba(41,98,255,0.4);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    button:hover {
+      background-color: #0039cb;
+      box-shadow: 0 10px 20px rgba(0,57,203,0.6);
+    }
+    .links {
+      margin-top: 18px;
+      font-size: 14px;
+      color: #555;
+    }
+    .links a {
+      color: #2962ff;
+      text-decoration: none;
+      font-weight: 600;
+      margin-left: 5px;
+    }
+    .links a:hover {
+      text-decoration: underline;
+    }
+    .error-msg,
+    .success-msg {
+      margin-bottom: 15px;
+      font-weight: 600;
+      font-size: 14px;
+      display: none;
+      padding: 10px;
+      border-radius: 8px;
+    }
+    .error-msg {
+      background-color: #ffebee;
+      color: #d32f2f;
+    }
+    .success-msg {
+      background-color: #e8f5e9;
+      color: #388e3c;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Create Account</h2>
+    <div id="error" class="error-msg"></div>
+    <div id="success" class="success-msg"></div>
+    <form id="signup-form" novalidate>
+      <input type="email" id="email" placeholder="Email address" required />
+      <input type="password" id="password" placeholder="Password (min 6 characters)" minlength="6" required />
+      <button type="submit">Sign Up</button>
+    </form>
+    <div class="links">
+      Already have an account? <a href="login.html">Login</a>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('signup-form');
+    const errorDiv = document.getElementById('error');
+    const successDiv = document.getElementById('success');
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      errorDiv.style.display = 'none';
+      successDiv.style.display = 'none';
+
+      const email = form.email.value.trim();
+      const password = form.password.value.trim();
+
+      if (!email || !password) {
+        errorDiv.textContent = 'Please fill in all fields.';
+        errorDiv.style.display = 'block';
+        return;
+      }
+      if (password.length < 6) {
+        errorDiv.textContent = 'Password must be at least 6 characters.';
+        errorDiv.style.display = 'block';
+        return;
+      }
+
+      let users = JSON.parse(localStorage.getItem('users') || '[]');
+      if (users.find(u => u.email.toLowerCase() === email.toLowerCase())) {
+        errorDiv.textContent = 'Email already registered.';
+        errorDiv.style.display = 'block';
+        return;
+      }
+
+      users.push({ email, password });
+      localStorage.setItem('users', JSON.stringify(users));
+
+      successDiv.textContent = 'Account created! Redirecting to login...';
+      successDiv.style.display = 'block';
+
+      setTimeout(() => {
+        window.location.href = 'login.html';
+      }, 2000);
+    });
+  </script>
+</body>
+</html>

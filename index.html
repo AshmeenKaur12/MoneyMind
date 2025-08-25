@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard - Smart Finance Coach</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: #e9f0ff; /* softer background */
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      color: #1a1a2e;
+    }
+    header {
+      background: #0f3460;
+      color: white;
+      padding: 20px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 8px rgba(15, 52, 96, 0.5);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    header h1 {
+      margin: 0;
+      font-weight: 700;
+      font-size: 28px;
+      letter-spacing: 1.2px;
+      user-select: none;
+    }
+    button.logout-btn {
+      background: #e94560;
+      border: none;
+      padding: 10px 22px;
+      border-radius: 12px;
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+    button.logout-btn:hover {
+      background: #b8002a;
+    }
+
+    /* Navigation bar below header */
+    nav.navbar {
+      background: #16213e;
+      display: flex;
+      padding: 12px 30px;
+      box-shadow: 0 2px 6px rgba(22, 33, 62, 0.6);
+      user-select: none;
+    }
+    nav.navbar a {
+      color: #d1d5db;
+      font-weight: 600;
+      margin-right: 25px;
+      text-decoration: none;
+      font-size: 16px;
+      padding-bottom: 4px;
+      transition: color 0.3s ease, border-bottom 0.3s ease;
+      border-bottom: 3px solid transparent;
+    }
+    nav.navbar a:hover {
+      color: #e94560;
+      border-bottom: 3px solid #e94560;
+    }
+    nav.navbar a.active {
+      color: #e94560;
+      border-bottom: 3px solid #e94560;
+    }
+
+    main {
+      flex: 1;
+      padding: 25px 40px;
+      display: grid;
+      grid-template-columns: 2fr 3fr;
+      gap: 35px;
+      max-width: 1200px;
+      margin: 20px auto;
+    }
+    section {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      padding: 30px 35px;
+    }
+
+    /* Summary Cards */
+    .summary-cards {
+      display: flex;
+      gap: 25px;
+      margin-bottom: 28px;
+    }
+    .card {
+      flex: 1;
+      background: #0f3460;
+      color: white;
+      border-radius: 16px;
+      padding: 25px 28px;
+      box-shadow: 0 6px 14px rgba(15, 52, 96, 0.6);
+      transition: transform 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 28px rgba(15, 52, 96, 0.7);
+    }
+    .card.expense {
+      background: #e94560;
+      box-shadow: 0 6px 14px rgba(233, 69, 96, 0.6);
+    }
+    .card.expense:hover {
+      box-shadow: 0 12px 28px rgba(233, 69, 96, 0.7);
+    }
+    .card.savings {
+      background: #00b894;
+      box-shadow: 0 6px 14px rgba(0, 184, 148, 0.6);
+    }
+    .card.savings:hover {
+      box-shadow: 0 12px 28px rgba(0, 184, 148, 0.7);
+    }
+    .card h3 {
+      margin: 0 0 12px;
+      font-weight: 700;
+      font-size: 20px;
+      letter-spacing: 0.03em;
+    }
+    .card p {
+      font-size: 32px;
+      font-weight: 800;
+      margin: 0;
+      letter-spacing: 0.05em;
+    }
+
+    /* Form */
+    form input, form select, form button {
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+    }
+    form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 36px;
+    }
+    form input, form select {
+      flex: 1 1 130px;
+      padding: 14px 18px;
+      border-radius: 12px;
+      border: 1.8px solid #ccc;
+      outline: none;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    form input:focus, form select:focus {
+      border-color: #e94560;
+      box-shadow: 0 0 8px rgba(233, 69, 96, 0.5);
+    }
+    form button {
+      background: #e94560;
+      color: white;
+      border: none;
+      padding: 14px 32px;
+      border-radius: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      flex: 0 0 auto;
+    }
+    form button:hover {
+      background: #b8002a;
+    }
+
+    /* Chatbot container */
+    .chatbot-container {
+      display: flex;
+      flex-direction: column;
+      height: 540px;
+      border-radius: 16px;
+      background: white;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+    .chat-header {
+      background: #0f3460;
+      color: white;
+      padding: 18px 25px;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+      font-weight: 700;
+      font-size: 22px;
+      letter-spacing: 0.04em;
+      user-select: none;
+    }
+    .chat-messages {
+      flex: 1;
+      padding: 25px 30px;
+      overflow-y: auto;
+      background: #f0f5ff;
+      font-size: 15.5px;
+      line-height: 1.5;
+    }
+    .chat-input-area {
+      display: flex;
+      border-top: 1px solid #ddd;
+      padding: 18px 25px;
+      background: white;
+      border-bottom-left-radius: 16px;
+      border-bottom-right-radius: 16px;
+    }
+    .chat-input-area input {
+      flex: 1;
+      padding: 14px 22px;
+      font-size: 16px;
+      border-radius: 30px;
+      border: 1.8px solid #ccc;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      outline: none;
+    }
+    .chat-input-area input:focus {
+      border-color: #e94560;
+      box-shadow: 0 0 10px rgba(233, 69, 96, 0.5);
+    }
+    .chat-input-area button {
+      margin-left: 14px;
+      background: #e94560;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      padding: 14px 28px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      font-size: 16px;
+      user-select: none;
+    }
+    .chat-input-area button:hover {
+      background: #b8002a;
+    }
+    .message {
+      margin-bottom: 18px;
+      display: flex;
+      max-width: 80%;
+      word-wrap: break-word;
+      font-weight: 500;
+    }
+    .message.user {
+      justify-content: flex-end;
+    }
+    .message.user .msg-content {
+      background: #e94560;
+      color: white;
+      border-radius: 18px 18px 0 18px;
+      padding: 14px 24px;
+      box-shadow: 0 3px 8px rgba(233, 69, 96, 0.6);
+    }
+    .message.bot .msg-content {
+      background: #dbe6ff;
+      color: #1a1a2e;
+      border-radius: 18px 18px 18px 0;
+      padding: 14px 24px;
+      box-shadow: 0 3px 8px rgba(15, 52, 96, 0.2);
+    }
+
+    /* Chart */
+    #chart-container {
+      max-width: 100%;
+      margin-top: 28px;
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 900px) {
+      main {
+        grid-template-columns: 1fr;
+        padding: 20px 20px;
+      }
+      .summary-cards {
+        flex-direction: column;
+      }
+      form input, form select {
+        flex: 1 1 100%;
+      }
+      nav.navbar {
+        padding: 12px 20px;
+        overflow-x: auto;
+      }
+      nav.navbar a {
+        margin-right: 15px;
+      }
+    }
+  </style>
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Smart Finance Coach</h1>
+    <button class="logout-btn" id="logout-btn">Logout</button>
+  </header>
+
+  <nav class="navbar">
+    <a href="dashboard.html" class="active">Dashboard</a>
+    <a href="transactions.html">Transactions</a>
+    <a href="reports.html">Reports</a>
+    <a href="profile.html">Profile</a>
+    <a href="settings.html">Settings</a>
+  </nav>
+
+  <main>
+    <section>
+      <h2>Financial Overview</h2>
+
+      <div class="summary-cards">
+        <div class="card income">
+          <h3>Total Income</h3>
+          <p id="total-income">₹0</p>
+        </div>
+        <div class="card expense">
+          <h3>Total Expenses</h3>
+          <p id="total-expenses">₹0</p>
+        </div>
+        <div class="card savings">
+          <h3>Savings</h3>
+          <p id="total-savings">₹0</p>
+        </div>
+      </div>
+
+      <form id="finance-form">
+        <select id="type" required>
+          <option value="" disabled selected>Select Type</option>
+          <option value="income">Income</option>
+          <option value="expense">Expense</option>
+        </select>
+        <input type="number" id="amount" placeholder="Amount (₹)" min="1" required />
+        <input type="text" id="category" placeholder="Category (e.g. Food, Transport)" required />
+        <input type="date" id="date" required />
+        <button type="submit">Add</button>
+      </form>
+
+      <canvas id="finance-chart" height="220"></canvas>
+    </section>
+
+    <section class="chatbot-container">
+      <div class="chat-header">AI Financial Coach</div>
+      <div class="chat-messages" id="chat-messages">
+        <div class="message bot">
+          <div class="msg-content">Hi! I’m your financial coach bot. Ask me about budgeting, saving, or managing your gig income.</div>
+        </div>
+      </div>
+      <form id="chat-form" class="chat-input-area" autocomplete="off">
+        <input type="text" id="chat-input" placeholder="Ask me anything about your finances..." required />
+        <button type="submit">Send</button>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    // Check login
+    const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+    if (!loggedInUser) {
+      window.location.href = 'login.html';
+    }
+
+    // Logout
+    document.getElementById('logout-btn').addEventListener('click', () => {
+      localStorage.removeItem('loggedInUser');
+      window.location.href = 'login.html';
+    });
+
+    // Navigation active link highlight (optional enhancement)
+    const navLinks = document.querySelectorAll('nav.navbar a');
+    navLinks.forEach(link => {
+      if (link.href.includes(window.location.pathname.split('/').pop())) {
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
+      }
+    });
+
+    // Data structures
+    let finances = JSON.parse(localStorage.getItem('finances_' + loggedInUser.email)) || [];
+
+    // Elements
+    const form = document.getElementById('finance-form');
+    const totalIncomeEl = document.getElementById('total-income');
+    const totalExpensesEl = document.getElementById('total-expenses');
+    const totalSavingsEl = document.getElementById('total-savings');
+
+    // Add finance record
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+
+      const type = form.type.value;
+      const amount = parseFloat(form.amount.value);
+      const category = form.category.value.trim();
+      const date = form.date.value;
+
+      if (!type || !amount || !category || !date) {
+        alert('Please fill all fields correctly.');
+        return;
+      }
+      if (amount <= 0) {
+        alert('Amount must be positive.');
+        return;
+      }
+
+      finances.push({ type, amount, category, date });
+      localStorage.setItem('finances_' + loggedInUser.email, JSON.stringify(finances));
+      form.reset();
+
+      updateSummary();
+      updateChart();
+    });
+
+    // Calculate & update summary cards
+    function updateSummary() {
+      const income = finances
+        .filter(f => f.type === 'income')
+        .reduce((sum, f) => sum + f.amount, 0);
+
+      const expense = finances
+        .filter(f => f.type === 'expense')
+        .reduce((sum, f) => sum + f.amount, 0);
+
+      const savings = income - expense;
+
+      totalIncomeEl.textContent = '₹' + income.toFixed(2);
+      totalExpensesEl.textContent = '₹' + expense.toFixed(2);
+      totalSavingsEl.textContent = '₹' + savings.toFixed(2);
+    }
+
+    // Initialize Chart.js chart
+    const ctx = document.getElementById('finance-chart').getContext('2d');
+    let financeChart;
+
+    function updateChart() {
+      // Group finances by month and type
+      const incomeByMonth = {};
+      const expenseByMonth = {};
+
+      finances.forEach(({ type, amount, date }) => {
+        const month = date.slice(0,7); // YYYY-MM
+        if(type === 'income') {
+          incomeByMonth[month] = (incomeByMonth[month] || 0) + amount;
+        } else if(type === 'expense') {
+          expenseByMonth[month] = (expenseByMonth[month] || 0) + amount;
+        }
+      });
+
+      // Get last 6 months
+      const months = [];
+      const now = new Date();
+      for(let i=5; i>=0; i--) {
+        const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+        const monthStr = d.toISOString().slice(0,7);
+        months.push(monthStr);
+      }
+
+      const incomeData = months.map(m => incomeByMonth[m] || 0);
+      const expenseData = months.map(m => expenseByMonth[m] || 0);
+
+      if(financeChart) financeChart.destroy();
+
+      financeChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: months,
+          datasets: [
+            {
+              label: 'Income',
+              data: incomeData,
+              backgroundColor: '#0f3460'
+            },
+            {
+              label: 'Expense',
+              data: expenseData,
+              backgroundColor: '#e94560'
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          },
+          plugins: {
+            legend: {
+              labels: {
+                font: {
+                  size: 14,
+                  weight: '600'
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    updateSummary();
+    updateChart();
+
+    // Chatbot code
+    const chatForm = document.getElementById('chat-form');
+    const chatInput = document.getElementById('chat-input');
+    const chatMessages = document.getElementById('chat-messages');
+
+    chatForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const message = chatInput.value.trim();
+      if (!message) return;
+
+      appendMessage('user', message);
+      chatInput.value = '';
+
+      // Simple canned responses
+      setTimeout(() => {
+        let reply = "I’m not sure about that. Could you please ask in another way?";
+        const msgLower = message.toLowerCase();
+
+        if (msgLower.includes('save') || msgLower.includes('saving')) {
+          reply = "To save more, try tracking your expenses carefully and setting a fixed percentage of your income to savings.";
+        } else if (msgLower.includes('budget')) {
+          reply = "Creating a monthly budget helps control spending and ensures you meet your savings goals.";
+        } else if (msgLower.includes('gig')) {
+          reply = "Managing gig income means keeping track of irregular payments and setting aside taxes.";
+        } else if (msgLower.includes('expense')) {
+          reply = "Review your expenses regularly and cut down on non-essential items to save money.";
+        } else if (msgLower.includes('income')) {
+          reply = "Increasing your income can be done by finding new gigs or asking for raises.";
+        }
+
+        appendMessage('bot', reply);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }, 900);
+    });
+
+    function appendMessage(sender, text) {
+      const msgDiv = document.createElement('div');
+      msgDiv.classList.add('message', sender);
+      const contentDiv = document.createElement('div');
+      contentDiv.classList.add('msg-content');
+      contentDiv.textContent = text;
+      msgDiv.appendChild(contentDiv);
+      chatMessages.appendChild(msgDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+  </script>
+</body>
+</html>
