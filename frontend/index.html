@@ -7,18 +7,18 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
     * {
       box-sizing: border-box;
     }
     body {
       margin: 0;
       font-family: 'Inter', sans-serif;
-      background: #e9f0ff; /* softer background */
+      background: #e9f0ff;
       display: flex;
       flex-direction: column;
       min-height: 100vh;
       color: #1a1a2e;
+      font-size: 16px;
     }
     header {
       background: #0f3460;
@@ -36,8 +36,6 @@
       margin: 0;
       font-weight: 700;
       font-size: 28px;
-      letter-spacing: 1.2px;
-      user-select: none;
     }
     button.logout-btn {
       background: #e94560;
@@ -48,46 +46,43 @@
       font-weight: 700;
       cursor: pointer;
       font-size: 16px;
-      transition: background-color 0.3s ease;
     }
     button.logout-btn:hover {
       background: #b8002a;
     }
 
-    /* Navigation bar below header */
+    /* ✅ Navbar equal spacing */
     nav.navbar {
       background: #16213e;
       display: flex;
+      justify-content: space-evenly; /* equal spacing */
       padding: 12px 30px;
       box-shadow: 0 2px 6px rgba(22, 33, 62, 0.6);
-      user-select: none;
     }
     nav.navbar a {
+      flex: 1;
+      text-align: center;
       color: #d1d5db;
       font-weight: 600;
-      margin-right: 25px;
       text-decoration: none;
       font-size: 16px;
       padding-bottom: 4px;
-      transition: color 0.3s ease, border-bottom 0.3s ease;
       border-bottom: 3px solid transparent;
     }
-    nav.navbar a:hover {
-      color: #e94560;
-      border-bottom: 3px solid #e94560;
-    }
+    nav.navbar a:hover,
     nav.navbar a.active {
       color: #e94560;
       border-bottom: 3px solid #e94560;
     }
 
+    /* ✅ Main layout: finance left, AI chatbot right */
     main {
       flex: 1;
       padding: 25px 40px;
       display: grid;
-      grid-template-columns: 2fr 3fr;
+      grid-template-columns: 2fr 1fr; /* left → finance section, right → chatbot */
       gap: 35px;
-      max-width: 1200px;
+      max-width: 1250px;
       margin: 20px auto;
     }
     section {
@@ -95,90 +90,6 @@
       border-radius: 16px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.08);
       padding: 30px 35px;
-    }
-
-    /* Summary Cards */
-    .summary-cards {
-      display: flex;
-      gap: 25px;
-      margin-bottom: 28px;
-    }
-    .card {
-      flex: 1;
-      background: #0f3460;
-      color: white;
-      border-radius: 16px;
-      padding: 25px 28px;
-      box-shadow: 0 6px 14px rgba(15, 52, 96, 0.6);
-      transition: transform 0.3s ease;
-    }
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 28px rgba(15, 52, 96, 0.7);
-    }
-    .card.expense {
-      background: #e94560;
-      box-shadow: 0 6px 14px rgba(233, 69, 96, 0.6);
-    }
-    .card.expense:hover {
-      box-shadow: 0 12px 28px rgba(233, 69, 96, 0.7);
-    }
-    .card.savings {
-      background: #00b894;
-      box-shadow: 0 6px 14px rgba(0, 184, 148, 0.6);
-    }
-    .card.savings:hover {
-      box-shadow: 0 12px 28px rgba(0, 184, 148, 0.7);
-    }
-    .card h3 {
-      margin: 0 0 12px;
-      font-weight: 700;
-      font-size: 20px;
-      letter-spacing: 0.03em;
-    }
-    .card p {
-      font-size: 32px;
-      font-weight: 800;
-      margin: 0;
-      letter-spacing: 0.05em;
-    }
-
-    /* Form */
-    form input, form select, form button {
-      font-family: 'Inter', sans-serif;
-      font-size: 16px;
-    }
-    form {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
-      margin-bottom: 36px;
-    }
-    form input, form select {
-      flex: 1 1 130px;
-      padding: 14px 18px;
-      border-radius: 12px;
-      border: 1.8px solid #ccc;
-      outline: none;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    }
-    form input:focus, form select:focus {
-      border-color: #e94560;
-      box-shadow: 0 0 8px rgba(233, 69, 96, 0.5);
-    }
-    form button {
-      background: #e94560;
-      color: white;
-      border: none;
-      padding: 14px 32px;
-      border-radius: 16px;
-      font-weight: 800;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      flex: 0 0 auto;
-    }
-    form button:hover {
-      background: #b8002a;
     }
 
     /* Chatbot container */
@@ -271,130 +182,80 @@
       box-shadow: 0 3px 8px rgba(15, 52, 96, 0.2);
     }
 
-    /* Chart */
-    #chart-container {
-      max-width: 100%;
-      margin-top: 28px;
+    /* Summary Cards */
+    .summary-cards {
+      display: flex;
+      gap: 25px;
+      margin-bottom: 28px;
+    }
+    .card {
+      flex: 1;
+      background: #0f3460;
+      color: white;
+      border-radius: 16px;
+      padding: 25px 28px;
+    }
+    .card.expense { background: #e94560; }
+    .card.savings { background: #00b894; }
+    .card h3 { margin: 0 0 12px; font-size: 20px; }
+    .card p { font-size: 32px; font-weight: 800; margin: 0; }
+
+    form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 36px;
+    }
+    form input, form select, form button {
+      font-size: 16px;
+      padding: 14px 18px;
+      border-radius: 12px;
     }
 
-    /* Responsive tweaks */
-    @media (max-width: 900px) {
-      main {
-        grid-template-columns: 1fr;
-        padding: 20px 20px;
-      }
-      .summary-cards {
-        flex-direction: column;
-      }
-      form input, form select {
-        flex: 1 1 100%;
-      }
-      nav.navbar {
-        padding: 12px 20px;
-        overflow-x: auto;
-      }
-      nav.navbar a {
-        margin-right: 15px;
-      }
+    /* Chart section with pie chart */
+    .chart-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 25px;
+      margin-top: 20px;
     }
-    /* Toggle Switch */
-.theme-toggle {
-  margin-left: auto;
-  margin-right: 20px;
-}
+    #finance-chart { flex: 2; }
+    #pie-chart {
+      flex: 1;
+      max-width: 280px;
+      margin: 0 auto;
+    }
 
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 50px;
-  height: 26px;
-}
-
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0; left: 0;
-  right: 0; bottom: 0;
-  background-color: #ccc;
-  transition: 0.4s;
-  border-radius: 34px;
-}
-
-.slider::before {
-  position: absolute;
-  content: "";
-  height: 20px; width: 20px;
-  left: 3px; bottom: 3px;
-  background-color: white;
-  transition: 0.4s;
-  border-radius: 50%;
-}
-
-input:checked + .slider {
-  background-color: #2196F3;
-}
-
-input:checked + .slider::before {
-  transform: translateX(24px);
-}
-
-/* Dark mode styles */
-body.dark {
-  background: #1c1c2b;
-  color: #f1f1f1;
-}
-
-body.dark header,
-body.dark nav,
-body.dark section {
-  background-color: #2a2a3d;
-  color: #f1f1f1;
-}
-
-body.dark .card,
-body.dark .chatbot-container,
-body.dark form input,
-body.dark form select,
-body.dark form button,
-body.dark .chat-input-area input,
-body.dark .chat-input-area button {
-  background-color: #2e2e3e;
-  color: #ffffff;
-}
-
-body.dark nav a {
-  color: #cfd4e4;
-}
-
-body.dark nav a.active,
-body.dark nav a:hover {
-  background-color: #e94560;
-  color: white;
-}
-
+    /* Dark mode styles */
+    body.dark {
+      background: #1c1c2b;
+      color: #f1f1f1;
+      font-size: 17px;
+    }
+    body.dark header, 
+    body.dark nav, 
+    body.dark section {
+      background-color: #2a2a3d;
+      color: #f1f1f1;
+    }
+    body.dark .card { background-color: #33334d; }
+    body.dark .card p { color: #f5f5f5; font-size: 34px; }
+    body.dark nav a { color: #cfd4e4; }
+    body.dark nav a.active, 
+    body.dark nav a:hover { background-color: #e94560; color: white; }
   </style>
-
-  <!-- Chart.js CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <header>
     <h1>Smart Finance Coach</h1>
     <div class="theme-toggle">
-  <label class="switch">
-    <input type="checkbox" id="theme-toggle">
-    <span class="slider round"></span>
-  </label>
-</div>
-
+      <label class="switch">
+        <input type="checkbox" id="theme-toggle">
+        <span class="slider round"></span>
+      </label>
+    </div>
     <button class="logout-btn" id="logout-btn">Logout</button>
-
   </header>
 
   <nav class="navbar">
@@ -406,24 +267,14 @@ body.dark nav a:hover {
   </nav>
 
   <main>
+    <!-- ✅ Left Column: Finance -->
     <section>
       <h2>Financial Overview</h2>
-
       <div class="summary-cards">
-        <div class="card income">
-          <h3>Total Income</h3>
-          <p id="total-income">₹0</p>
-        </div>
-        <div class="card expense">
-          <h3>Total Expenses</h3>
-          <p id="total-expenses">₹0</p>
-        </div>
-        <div class="card savings">
-          <h3>Savings</h3>
-          <p id="total-savings">₹0</p>
-        </div>
+        <div class="card income"><h3>Total Income</h3><p id="total-income">₹0</p></div>
+        <div class="card expense"><h3>Total Expenses</h3><p id="total-expenses">₹0</p></div>
+        <div class="card savings"><h3>Savings</h3><p id="total-savings">₹0</p></div>
       </div>
-
       <form id="finance-form">
         <select id="type" required>
           <option value="" disabled selected>Select Type</option>
@@ -431,14 +282,23 @@ body.dark nav a:hover {
           <option value="expense">Expense</option>
         </select>
         <input type="number" id="amount" placeholder="Amount (₹)" min="1" required />
-        <input type="text" id="category" placeholder="Category (e.g. Food, Transport)" required />
+        <input type="text" id="category" placeholder="Category" required />
         <input type="date" id="date" required />
         <button type="submit">Add</button>
       </form>
-
-      <canvas id="finance-chart" height="220"></canvas>
+      <div class="chart-section">
+        <div style="flex:2;">
+          <h3>Monthly Income vs Expenses</h3>
+          <canvas id="finance-chart" height="220"></canvas>
+        </div>
+        <div style="flex:1; text-align:center;">
+          <h3>Income vs Expense Ratio</h3>
+          <canvas id="pie-chart" height="220"></canvas>
+        </div>
+      </div>
     </section>
 
+    <!-- ✅ Right Column: AI Chatbot -->
     <section class="chatbot-container">
       <div class="chat-header">AI Financial Coach</div>
       <div class="chat-messages" id="chat-messages">
@@ -454,199 +314,69 @@ body.dark nav a:hover {
   </main>
 
   <script>
-    // Check login
     const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
-    if (!loggedInUser) {
-      window.location.href = 'login.html';
-    }
+    if (!loggedInUser) window.location.href = 'login.html';
 
-    // Logout
-    document.getElementById('logout-btn').addEventListener('click', () => {
-      localStorage.removeItem('loggedInUser');
-      window.location.href = 'login.html';
-    });
-
-    // Navigation active link highlight (optional enhancement)
-    const navLinks = document.querySelectorAll('nav.navbar a');
-    navLinks.forEach(link => {
-      if (link.href.includes(window.location.pathname.split('/').pop())) {
-        link.classList.add('active');
-      } else {
-        link.classList.remove('active');
-      }
-    });
-
-    // Data structures
     let finances = JSON.parse(localStorage.getItem('finances_' + loggedInUser.email)) || [];
 
-    // Elements
-    const form = document.getElementById('finance-form');
     const totalIncomeEl = document.getElementById('total-income');
     const totalExpensesEl = document.getElementById('total-expenses');
     const totalSavingsEl = document.getElementById('total-savings');
+    const ctx = document.getElementById('finance-chart').getContext('2d');
+    const pieCtx = document.getElementById('pie-chart').getContext('2d');
+    let financeChart, pieChart;
 
-    // Add finance record
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-
-      const type = form.type.value;
-      const amount = parseFloat(form.amount.value);
-      const category = form.category.value.trim();
-      const date = form.date.value;
-
-      if (!type || !amount || !category || !date) {
-        alert('Please fill all fields correctly.');
-        return;
-      }
-      if (amount <= 0) {
-        alert('Amount must be positive.');
-        return;
-      }
-
-      finances.push({ type, amount, category, date });
-      localStorage.setItem('finances_' + loggedInUser.email, JSON.stringify(finances));
-      form.reset();
-
-      updateSummary();
-      updateChart();
-    });
-
-    // Calculate & update summary cards
     function updateSummary() {
-      const income = finances
-        .filter(f => f.type === 'income')
-        .reduce((sum, f) => sum + f.amount, 0);
-
-      const expense = finances
-        .filter(f => f.type === 'expense')
-        .reduce((sum, f) => sum + f.amount, 0);
-
-      const savings = income - expense;
-
+      const income = finances.filter(f => f.type === 'income').reduce((s, f) => s + f.amount, 0);
+      const expense = finances.filter(f => f.type === 'expense').reduce((s, f) => s + f.amount, 0);
       totalIncomeEl.textContent = '₹' + income.toFixed(2);
       totalExpensesEl.textContent = '₹' + expense.toFixed(2);
-      totalSavingsEl.textContent = '₹' + savings.toFixed(2);
+      totalSavingsEl.textContent = '₹' + (income - expense).toFixed(2);
+      updatePieChart(income, expense);
     }
-
-    // Initialize Chart.js chart
-    const ctx = document.getElementById('finance-chart').getContext('2d');
-    let financeChart;
 
     function updateChart() {
-      // Group finances by month and type
-      const incomeByMonth = {};
-      const expenseByMonth = {};
-
+      const incomeByMonth = {}, expenseByMonth = {};
       finances.forEach(({ type, amount, date }) => {
-        const month = date.slice(0,7); // YYYY-MM
-        if(type === 'income') {
-          incomeByMonth[month] = (incomeByMonth[month] || 0) + amount;
-        } else if(type === 'expense') {
-          expenseByMonth[month] = (expenseByMonth[month] || 0) + amount;
-        }
+        const month = date.slice(0,7);
+        if(type === 'income') incomeByMonth[month] = (incomeByMonth[month] || 0) + amount;
+        else expenseByMonth[month] = (expenseByMonth[month] || 0) + amount;
       });
-
-      // Get last 6 months
-      const months = [];
-      const now = new Date();
-      for(let i=5; i>=0; i--) {
-        const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-        const monthStr = d.toISOString().slice(0,7);
-        months.push(monthStr);
-      }
-
-      const incomeData = months.map(m => incomeByMonth[m] || 0);
-      const expenseData = months.map(m => expenseByMonth[m] || 0);
-
+      const months = []; const now = new Date();
+      for(let i=5;i>=0;i--){ const d=new Date(now.getFullYear(),now.getMonth()-i,1); months.push(d.toISOString().slice(0,7)); }
+      const incomeData = months.map(m=>incomeByMonth[m]||0);
+      const expenseData = months.map(m=>expenseByMonth[m]||0);
       if(financeChart) financeChart.destroy();
+      financeChart=new Chart(ctx,{type:'bar',data:{labels:months,datasets:[{label:'Income',data:incomeData,backgroundColor:'#0f3460'},{label:'Expense',data:expenseData,backgroundColor:'#e94560'}]},options:{responsive:true}});
+    }
 
-      financeChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: months,
-          datasets: [
-            {
-              label: 'Income',
-              data: incomeData,
-              backgroundColor: '#0f3460'
-            },
-            {
-              label: 'Expense',
-              data: expenseData,
-              backgroundColor: '#e94560'
-            }
-          ]
-        },
-        options: {
-          responsive: true,
-          scales: {
-            y: {
-              beginAtZero: true
-            }
-          },
-          plugins: {
-            legend: {
-              labels: {
-                font: {
-                  size: 14,
-                  weight: '600'
-                }
-              }
-            }
-          }
+    function updatePieChart(income, expense){
+      if(pieChart) pieChart.destroy();
+      pieChart = new Chart(pieCtx, {
+        type:'pie',
+        data:{
+          labels:['Income','Expenses'],
+          datasets:[{data:[income,expense],backgroundColor:['#0f3460','#e94560']}]
         }
       });
     }
 
-    updateSummary();
-    updateChart();
-
-    // Chatbot code
-    const chatForm = document.getElementById('chat-form');
-    const chatInput = document.getElementById('chat-input');
-    const chatMessages = document.getElementById('chat-messages');
-
-    chatForm.addEventListener('submit', e => {
+    document.getElementById('finance-form').addEventListener('submit', e=>{
       e.preventDefault();
-      const message = chatInput.value.trim();
-      if (!message) return;
-
-      appendMessage('user', message);
-      chatInput.value = '';
-
-      // Simple canned responses
-      setTimeout(() => {
-        let reply = "I’m not sure about that. Could you please ask in another way?";
-        const msgLower = message.toLowerCase();
-
-        if (msgLower.includes('save') || msgLower.includes('saving')) {
-          reply = "To save more, try tracking your expenses carefully and setting a fixed percentage of your income to savings.";
-        } else if (msgLower.includes('budget')) {
-          reply = "Creating a monthly budget helps control spending and ensures you meet your savings goals.";
-        } else if (msgLower.includes('gig')) {
-          reply = "Managing gig income means keeping track of irregular payments and setting aside taxes.";
-        } else if (msgLower.includes('expense')) {
-          reply = "Review your expenses regularly and cut down on non-essential items to save money.";
-        } else if (msgLower.includes('income')) {
-          reply = "Increasing your income can be done by finding new gigs or asking for raises.";
-        }
-
-        appendMessage('bot', reply);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-      }, 900);
+      const type=e.target.type.value, amount=parseFloat(e.target.amount.value), category=e.target.category.value, date=e.target.date.value;
+      if(!type||!amount||!category||!date) return alert('Please fill all fields');
+      finances.push({type,amount,category,date});
+      localStorage.setItem('finances_'+loggedInUser.email,JSON.stringify(finances));
+      e.target.reset();
+      updateSummary(); updateChart();
     });
 
-    function appendMessage(sender, text) {
-      const msgDiv = document.createElement('div');
-      msgDiv.classList.add('message', sender);
-      const contentDiv = document.createElement('div');
-      contentDiv.classList.add('msg-content');
-      contentDiv.textContent = text;
-      msgDiv.appendChild(contentDiv);
-      chatMessages.appendChild(msgDiv);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
-    
+    // Theme toggle
+    document.getElementById('theme-toggle').addEventListener('change', e=>{
+      document.body.classList.toggle('dark', e.target.checked);
+    });
+
+    updateSummary(); updateChart();
   </script>
 </body>
 </html>
