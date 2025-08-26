@@ -1,204 +1,768 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Settings - Smart Finance Coach</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Settings - Smart Finance Coach</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        /* ===================
+           Global Styles
+           =================== */
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: #e9f0ff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #1a1a2e;
+            font-size: 16px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background: #f5f7fc; /* Light background like in screenshot */
-      min-height: 100vh;
-      color: #222;
-    }
+        /* ===================
+           Header
+           =================== */
+        header {
+            background: #0f3460;
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(15, 52, 96, 0.5);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        header h1 {
+            margin: 0;
+            font-weight: 700;
+            font-size: 28px;
+        }
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 28px;
+        }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #e94560;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #00b894;
+        }
+        input:checked + .slider:before {
+            transform: translateX(22px);
+        }
+        .slider .fa-moon {
+            color: #fff;
+            position: absolute;
+            left: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
+            transition: opacity 0.4s ease;
+        }
+        input:checked + .slider .fa-moon {
+            opacity: 0;
+        }
+        .slider .fa-sun {
+            color: #fff;
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        input:checked + .slider .fa-sun {
+            opacity: 1;
+        }
+        button.logout-btn {
+            background: #e94560;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 12px;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 16px;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.2s;
+        }
+        button.logout-btn:hover {
+            background: #b8002a;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(184, 0, 42, 0.4);
+        }
 
-    /* Header */
-    header {
-      background: #1b1f3a;
-      color: #fff;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 18px 28px;
-    }
-    header h1 {
-      font-size: 22px;
-      font-weight: 700;
-    }
-    .logout-btn {
-      background: #e63946;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 8px;
-      color: #fff;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    .logout-btn:hover { background: #c92d3b; }
+        /* ===================
+           Navigation
+           =================== */
+        nav.navbar {
+            background: #16213e;
+            display: flex;
+            justify-content: space-evenly;
+            padding: 12px 30px;
+            box-shadow: 0 2px 6px rgba(22, 33, 62, 0.6);
+        }
+        nav.navbar a {
+            flex: 1;
+            text-align: center;
+            color: #d1d5db;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 16px;
+            padding-bottom: 4px;
+            border-bottom: 3px solid transparent;
+            transition: color 0.3s ease, border-bottom 0.3s ease;
+        }
+        nav.navbar a:hover,
+        nav.navbar a.active {
+            color: #e94560;
+            border-bottom: 3px solid #e94560;
+        }
 
-    /* Navigation */
-    nav {
-      background: #262d55;
-      display: flex;
-      justify-content: center;
-      gap: 24px;
-      padding: 14px;
-    }
-    nav a {
-      color: #fff;
-      text-decoration: none;
-      font-weight: 600;
-      padding: 8px 16px;
-      border-radius: 8px;
-      transition: background 0.3s;
-    }
-    nav a:hover {
-      background: #343c66;
-    }
-    nav a.active {
-      background: #e63946;
-      color: #fff;
-    }
+        /* ===================
+           Settings Container
+           =================== */
+        .settings-container {
+            background: #fff;
+            padding: 40px;
+            border-radius: 16px;
+            max-width: 700px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin: 40px auto;
+            color: #1a1a2e;
+            animation: fadeInSlideUp 0.8s ease-out forwards;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        h2 {
+            margin-bottom: 10px;
+            color: #0f3460;
+            font-size: 32px;
+            text-align: center;
+        }
+        .section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: #e94560;
+            font-size: 22px;
+            font-weight: 700;
+            border-bottom: 2px solid #e9f0ff;
+            padding-bottom: 15px;
+        }
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f5ff;
+        }
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+        .setting-label {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .setting-label span.label-text {
+            font-weight: 600;
+            font-size: 16px;
+        }
+        .setting-label span.label-desc {
+            font-size: 14px;
+            color: #666;
+        }
+        select, input[type="number"] {
+            min-width: 150px;
+            padding: 8px;
+            border-radius: 8px;
+            border: 1.6px solid #ccc;
+            font-size: 15px;
+            cursor: pointer;
+            transition: border-color 0.3s ease;
+            outline: none;
+        }
+        select:hover, input[type="number"]:hover {
+            border-color: #0f3460;
+        }
+        .toggle-switch-container {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 26px;
+        }
+        .toggle-switch-container input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 26px;
+        }
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .toggle-slider {
+            background-color: #00b894;
+        }
+        input:checked + .toggle-slider:before {
+            transform: translateX(22px);
+        }
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .action-btn {
+            background: #0f3460;
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .action-btn.export-btn:hover {
+            background: #16213e;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(15, 52, 96, 0.4);
+        }
+        .action-btn.delete-btn {
+            background: #e94560;
+        }
+        .action-btn.delete-btn:hover {
+            background: #b8002a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(233, 69, 96, 0.4);
+        }
+        .save-msg {
+            display: none;
+            margin-top: 15px;
+            color: #00b894;
+            font-weight: 600;
+            font-size: 16px;
+            text-align: center;
+            padding: 10px;
+            border-radius: 8px;
+            background-color: #e6fffb;
+            border: 1px solid #00b894;
+        }
+        .loading-spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #fff;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: none;
+        }
+        .budget-progress {
+            background-color: #f0f5ff;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+        .budget-progress .progress-bar {
+            height: 12px;
+            background-color: #e94560;
+            border-radius: 6px;
+            transition: width 0.5s ease-in-out;
+            margin-top: 8px;
+        }
+        .budget-progress .progress-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+        }
+        .subscription-status {
+            font-weight: 600;
+            padding: 5px 10px;
+            border-radius: 12px;
+            background: #e6fffb;
+            color: #00b894;
+            font-size: 14px;
+        }
+        .subscription-status.active {
+            background: #e6fffb;
+            color: #00b894;
+        }
+        .subscription-status.inactive {
+            background: #fff0f5;
+            color: #e94560;
+        }
 
-    /* Container */
-    .container {
-      background: #fff;
-      padding: 30px;
-      border-radius: 16px;
-      max-width: 600px;
-      width: 100%;
-      box-shadow: 0 12px 24px rgba(0,0,0,0.12);
-      color: #222;
-      margin: 40px auto;
-    }
-    h2 {
-      margin-bottom: 25px;
-      color: #1b1f3a;
-      font-size: 26px;
-      text-align: center;
-    }
-    .section {
-      margin-bottom: 30px;
-      border-bottom: 1px solid #eee;
-      padding-bottom: 20px;
-    }
-    .section:last-child { border-bottom: none; }
-    .section h3 {
-      font-size: 18px;
-      color: #1b1f3a;
-      margin-bottom: 12px;
-    }
-    label {
-      display: block;
-      font-weight: 600;
-      margin-bottom: 6px;
-      font-size: 14px;
-      color: #333;
-    }
-    select, input[type="checkbox"] {
-      margin-bottom: 15px;
-    }
-    select {
-      width: 100%;
-      padding: 12px;
-      border-radius: 8px;
-      border: 1.6px solid #bbb;
-      font-size: 15px;
-    }
-    button {
-      background: #1b1f3a;
-      color: #fff;
-      border: none;
-      padding: 12px 20px;
-      border-radius: 10px;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      margin-top: 10px;
-    }
-    button:hover { background: #262d55; }
-    .save-msg {
-      display: none;
-      margin-top: 10px;
-      color: #388e3c;
-      font-weight: 600;
-      font-size: 14px;
-    }
-  </style>
+        /* ===================
+           Dark Mode Styles
+           =================== */
+        body.dark {
+            background: #1c1c2b;
+            color: #f1f1f1;
+        }
+        body.dark header {
+            background-color: #2a2a3d;
+        }
+        body.dark nav.navbar {
+            background-color: #2a2a3d;
+        }
+        body.dark nav.navbar a {
+            color: #cfd4e4;
+        }
+        body.dark nav.navbar a:hover,
+        body.dark nav.navbar a.active {
+            color: #e94560;
+            border-bottom: 3px solid #e94560;
+        }
+        body.dark .settings-container {
+            background-color: #2a2a3d;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            color: #f1f1f1;
+        }
+        body.dark h2 {
+            color: #e9f0ff;
+        }
+        body.dark .section-header {
+            color: #00b894;
+            border-bottom: 2px solid #3b3b55;
+        }
+        body.dark .setting-label span.label-desc {
+            color: #aaa;
+        }
+        body.dark .setting-item {
+            border-bottom: 1px solid #3b3b55;
+        }
+        body.dark select, body.dark input[type="number"] {
+            background-color: #33334d;
+            color: #f1f1f1;
+            border-color: #444466;
+        }
+        body.dark select:hover, body.dark input[type="number"]:hover {
+            border-color: #00b894;
+        }
+        body.dark .action-btn {
+            background: #00b894;
+        }
+        body.dark .action-btn:hover {
+            background: #00997a;
+            box-shadow: 0 4px 10px rgba(0, 184, 148, 0.4);
+        }
+        body.dark .action-btn.delete-btn {
+            background: #e94560;
+        }
+        body.dark .action-btn.delete-btn:hover {
+            background: #b8002a;
+        }
+        body.dark .save-msg {
+            background-color: #2f2f45;
+            color: #00b894;
+            border: 1px solid #00b894;
+        }
+        body.dark .budget-progress {
+            background-color: #252538;
+        }
+        body.dark .subscription-status.active {
+            background: #2f2f45;
+            color: #00b894;
+        }
+        body.dark .subscription-status.inactive {
+            background: #33334d;
+            color: #e94560;
+        }
+
+        /* ===================
+           Keyframe Animations
+           =================== */
+        @keyframes fadeInSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
 </head>
+
 <body>
-  <header>
-    <h1>Smart Finance Coach</h1>
-    <button class="logout-btn" id="logout-btn">Logout</button>
-  </header>
+    <header>
+        <h1>Smart Finance Coach</h1>
+        <div class="theme-toggle">
+            <label class="switch">
+                <input type="checkbox" id="theme-toggle" aria-label="Toggle dark mode">
+                <span class="slider round">
+                    <i class="fa-solid fa-moon"></i>
+                    <i class="fa-solid fa-sun"></i>
+                </span>
+            </label>
+        </div>
+        <button class="logout-btn" id="logout-btn">Logout</button>
+    </header>
 
-  <nav>
-    <a href="index.html">Dashboard</a>
-    <a href="transactions.html">Transactions</a>
-    <a href="reports.html">Reports</a>
-    <a href="profile.html">Profile</a>
-    <a href="settings.html" class="active">Settings</a>
-  </nav>
+    <nav class="navbar">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="transactions.html">Transactions</a>
+        <a href="reports.html">Reports</a>
+        <a href="profile.html">Profile</a>
+        <a href="settings.html" class="active">Settings</a>
+    </nav>
 
-  <div class="container">
-    <h2>App Settings</h2>
+    <main class="settings-container">
+        <h2><i class="fa-solid fa-gear"></i> App Settings</h2>
 
-    <!-- Appearance -->
-    <div class="section">
-      <h3>Appearance</h3>
-      <label for="theme">Choose Theme</label>
-      <select id="theme">
-        <option value="light">Light</option>
-        <option value="dark">Dark</option>
-        <option value="system">System Default</option>
-      </select>
-    </div>
+        <div class="section">
+            <h3 class="section-header"><i class="fa-solid fa-user-cog"></i> General Settings</h3>
+            <div class="setting-item">
+                <div class="setting-label">
+                    <span class="label-text">Theme</span>
+                    <span class="label-desc">Switch between light or dark mode.</span>
+                </div>
+                <select id="theme-select">
+                    <option value="light">Light</option>
+                    <option value="dark">Dark</option>
+                </select>
+            </div>
+            <div class="setting-item">
+                <div class="setting-label">
+                    <span class="label-text">Currency</span>
+                    <span class="label-desc">Set your preferred currency symbol.</span>
+                </div>
+                <select id="currency-select">
+                    <option value="₹">Indian Rupee (₹)</option>
+                    <option value="$">US Dollar ($)</option>
+                    <option value="€">Euro (€)</option>
+                    <option value="£">British Pound (£)</option>
+                    <option value="¥">Japanese Yen (¥)</option>
+                </select>
+            </div>
+            <div class="setting-item">
+                <div class="setting-label">
+                    <span class="label-text">Time Zone</span>
+                    <span class="label-desc">Set your local time zone for accurate reporting.</span>
+                </div>
+                <select id="timezone-select">
+                    <option value="IST">Indian Standard Time (IST)</option>
+                    <option value="PST">Pacific Standard Time (PST)</option>
+                    <option value="EST">Eastern Standard Time (EST)</option>
+                    <option value="GMT">Greenwich Mean Time (GMT)</option>
+                </select>
+            </div>
+        </div>
 
-    <!-- Notifications -->
-    <div class="section">
-      <h3>Notifications</h3>
-      <label><input type="checkbox" id="alerts" /> Enable Spending Alerts</label>
-      <label><input type="checkbox" id="reminders" /> Payment Due Reminders</label>
-      <label><input type="checkbox" id="news" /> Financial Tips & News</label>
-    </div>
+        <div class="section">
+            <h3 class="section-header"><i class="fa-solid fa-chart-line"></i> Budget Management</h3>
+            <div class="setting-item">
+                <div class="setting-label">
+                    <span class="label-text">Monthly Budget</span>
+                    <span class="label-desc">Set a spending limit for the month.</span>
+                </div>
+                <input type="number" id="monthly-budget" placeholder="e.g., 50000" min="1" />
+            </div>
+            <div class="budget-progress">
+                <div class="progress-info">
+                    <span>Budget Used: <strong id="budget-used">₹0</strong></span>
+                    <span>Remaining: <strong id="budget-remaining">₹0</strong></span>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="budget-progress-bar"></div>
+                </div>
+            </div>
+        </div>
 
-    <!-- Security -->
-    <div class="section">
-      <h3>Security</h3>
-      <label><input type="checkbox" id="2fa" /> Enable Two-Factor Authentication (2FA)</label>
-    </div>
+        <div class="section">
+            <h3 class="section-header"><i class="fa-solid fa-bell"></i> Notifications</h3>
+            <div class="setting-item">
+                <div class="setting-label">
+                    <span class="label-text">Spending Alerts</span>
+                    <span class="label-desc">Get notified when you exceed your budget.</span>
+                </div>
+                <label class="toggle-switch-container">
+                    <input type="checkbox" id="spending-alerts">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            <div class="setting-item">
+                <div class="setting-label">
+                    <span class="label-text">Payment Reminders</span>
+                    <span class="label-desc">Receive reminders for upcoming bills.</span>
+                </div>
+                <label class="toggle-switch-container">
+                    <input type="checkbox" id="payment-reminders">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+        </div>
 
-    <!-- Data & Privacy -->
-    <div class="section">
-      <h3>Data & Privacy</h3>
-      <button onclick="exportData()">Export My Data</button>
-      <button onclick="deleteAccount()" style="background:#d32f2f; margin-left:10px;">Delete Account</button>
-    </div>
+        <div class="section">
+            <h3 class="section-header"><i class="fa-solid fa-lock"></i> Security & Subscription</h3>
+            <div class="setting-item">
+                <div class="setting-label">
+                    <span class="label-text">Two-Factor Authentication (2FA)</span>
+                    <span class="label-desc">Add an extra layer of security to your account.</span>
+                </div>
+                <label class="toggle-switch-container">
+                    <input type="checkbox" id="2fa">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            <div class="setting-item">
+                <div class="setting-label">
+                    <span class="label-text">Subscription Status</span>
+                    <span class="label-desc">Manage your premium membership.</span>
+                </div>
+                <span class="subscription-status active" id="subscription-status">Active</span>
+                <button class="action-btn manage-sub-btn" onclick="manageSubscription()">
+                    <i class="fa-solid fa-credit-card"></i> Manage
+                </button>
+            </div>
+        </div>
 
-    <button onclick="saveSettings()">Save All Settings</button>
-    <div id="settings-msg" class="save-msg">Settings saved successfully!</div>
-  </div>
+        <div class="section">
+            <h3 class="section-header"><i class="fa-solid fa-database"></i> Data Management</h3>
+            <div class="setting-item">
+                <div class="setting-label">
+                    <span class="label-text">Export My Data</span>
+                    <span class="label-desc">Download a copy of your financial data.</span>
+                </div>
+                <button class="action-btn export-btn" onclick="exportData()">
+                    <i class="fa-solid fa-download"></i> Export
+                </button>
+            </div>
+            <div class="setting-item">
+                <div class="setting-label">
+                    <span class="label-text">Delete My Account</span>
+                    <span class="label-desc">Permanently delete your account and all data.</span>
+                </div>
+                <button class="action-btn delete-btn" onclick="deleteAccount()">
+                    <i class="fa-solid fa-trash-alt"></i> Delete
+                </button>
+            </div>
+        </div>
+        
+        <button class="action-btn save-btn" id="save-settings-btn">
+            <span class="btn-text"><i class="fa-solid fa-save"></i> Save All Settings</span>
+            <span class="loading-spinner"></span>
+        </button>
+        <div id="settings-msg" class="save-msg">Settings saved successfully!</div>
+    </main>
 
-  <script>
-    function saveSettings() {
-      document.getElementById('settings-msg').style.display = 'block';
-      setTimeout(() => {
-        document.getElementById('settings-msg').style.display = 'none';
-      }, 2000);
-    }
-    function exportData() {
-      alert("Your data export will be prepared and emailed to you.");
-    }
-    function deleteAccount() {
-      if (confirm("Are you sure you want to delete your account? This cannot be undone.")) {
-        alert("Account deletion request sent.");
-      }
-    }
-  </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+            if (!loggedInUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const themeToggle = document.getElementById('theme-toggle');
+            const themeSelect = document.getElementById('theme-select');
+            const saveBtn = document.getElementById('save-settings-btn');
+            const saveMsg = document.getElementById('settings-msg');
+            const spinner = document.querySelector('.loading-spinner');
+            const btnText = document.querySelector('.btn-text');
+            const currencySelect = document.getElementById('currency-select');
+            const timezoneSelect = document.getElementById('timezone-select');
+            const monthlyBudgetInput = document.getElementById('monthly-budget');
+            const budgetUsedEl = document.getElementById('budget-used');
+            const budgetRemainingEl = document.getElementById('budget-remaining');
+            const budgetProgressBar = document.getElementById('budget-progress-bar');
+            
+            loadSettings();
+            updateBudgetProgress();
+
+            themeToggle.addEventListener('change', (e) => {
+                const theme = e.target.checked ? 'dark' : 'light';
+                setTheme(theme);
+                localStorage.setItem('theme', theme);
+            });
+
+            themeSelect.addEventListener('change', (e) => {
+                const theme = e.target.value;
+                setTheme(theme);
+                localStorage.setItem('theme', theme);
+                themeToggle.checked = theme === 'dark';
+            });
+
+            document.getElementById('logout-btn').addEventListener('click', () => {
+                localStorage.removeItem('loggedInUser');
+                window.location.href = 'login.html';
+            });
+
+            saveBtn.addEventListener('click', () => {
+                saveBtn.disabled = true;
+                btnText.style.display = 'none';
+                spinner.style.display = 'block';
+
+                const settings = {
+                    theme: themeSelect.value,
+                    currency: currencySelect.value,
+                    timezone: timezoneSelect.value,
+                    monthlyBudget: parseFloat(monthlyBudgetInput.value) || 0,
+                    spendingAlerts: document.getElementById('spending-alerts').checked,
+                    paymentReminders: document.getElementById('payment-reminders').checked,
+                    twoFactorAuth: document.getElementById('2fa').checked
+                };
+                localStorage.setItem('userSettings', JSON.stringify(settings));
+
+                updateBudgetProgress();
+
+                setTimeout(() => {
+                    spinner.style.display = 'none';
+                    btnText.style.display = 'inline';
+                    saveBtn.disabled = false;
+                    saveMsg.style.display = 'block';
+                    setTimeout(() => {
+                        saveMsg.style.display = 'none';
+                    }, 2000);
+                }, 1500);
+            });
+
+            window.exportData = function() {
+                alert("Your data export will be prepared and emailed to you.");
+            }
+
+            window.deleteAccount = function() {
+                if (confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
+                    localStorage.removeItem('loggedInUser');
+                    localStorage.removeItem('finances_' + loggedInUser.email);
+                    localStorage.removeItem('goals_' + loggedInUser.email);
+                    localStorage.removeItem('userSettings');
+                    window.location.href = 'login.html';
+                }
+            }
+
+            window.manageSubscription = function() {
+                alert("Redirecting to subscription management page...");
+            }
+
+            function setTheme(theme) {
+                if (theme === 'dark') {
+                    document.body.classList.add('dark');
+                } else {
+                    document.body.classList.remove('dark');
+                }
+                themeSelect.value = theme;
+            }
+
+            function loadSettings() {
+                const storedTheme = localStorage.getItem('theme') || 'light';
+                const storedSettings = JSON.parse(localStorage.getItem('userSettings'));
+
+                setTheme(storedTheme);
+                themeToggle.checked = storedTheme === 'dark';
+                themeSelect.value = storedTheme;
+
+                if (storedSettings) {
+                    currencySelect.value = storedSettings.currency || '₹';
+                    timezoneSelect.value = storedSettings.timezone || 'IST';
+                    monthlyBudgetInput.value = storedSettings.monthlyBudget || '';
+                    document.getElementById('spending-alerts').checked = storedSettings.spendingAlerts;
+                    document.getElementById('payment-reminders').checked = storedSettings.paymentReminders;
+                    document.getElementById('2fa').checked = storedSettings.twoFactorAuth;
+                }
+            }
+
+            function getExpenses() {
+                const finances = JSON.parse(localStorage.getItem('finances_' + loggedInUser.email)) || [];
+                return finances.filter(f => f.type === 'expense').reduce((sum, f) => sum + f.amount, 0);
+            }
+
+            function updateBudgetProgress() {
+                const currentExpenses = getExpenses();
+                const monthlyBudget = parseFloat(monthlyBudgetInput.value) || 0;
+                const currency = currencySelect.value;
+                
+                if (monthlyBudget > 0) {
+                    const percentage = Math.min(100, (currentExpenses / monthlyBudget) * 100);
+                    budgetProgressBar.style.width = `${percentage}%`;
+                    if (currentExpenses > monthlyBudget) {
+                         budgetProgressBar.style.backgroundColor = '#e94560'; // Red when over budget
+                    } else {
+                         budgetProgressBar.style.backgroundColor = '#00b894'; // Green when within budget
+                    }
+                    budgetUsedEl.textContent = `${currency}${currentExpenses.toFixed(2)}`;
+                    const remaining = monthlyBudget - currentExpenses;
+                    budgetRemainingEl.textContent = `${currency}${Math.max(0, remaining).toFixed(2)}`;
+                } else {
+                    budgetProgressBar.style.width = '0%';
+                    budgetUsedEl.textContent = `${currency}0.00`;
+                    budgetRemainingEl.textContent = `${currency}0.00`;
+                }
+            }
+        });
+    </script>
 </body>
 </html>
