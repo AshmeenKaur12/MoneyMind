@@ -7,6 +7,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
+    /* ===================
+       Global Styles
+       =================== */
     * {
       box-sizing: border-box;
     }
@@ -20,6 +23,10 @@
       color: #1a1a2e;
       font-size: 16px;
     }
+
+    /* ===================
+       Header
+       =================== */
     header {
       background: #0f3460;
       color: white;
@@ -51,11 +58,13 @@
       background: #b8002a;
     }
 
-    /* ✅ Navbar equal spacing */
+    /* ===================
+       Navigation
+       =================== */
     nav.navbar {
       background: #16213e;
       display: flex;
-      justify-content: space-evenly; /* equal spacing */
+      justify-content: space-evenly;
       padding: 12px 30px;
       box-shadow: 0 2px 6px rgba(22, 33, 62, 0.6);
     }
@@ -75,12 +84,14 @@
       border-bottom: 3px solid #e94560;
     }
 
-    /* ✅ Main layout: finance left, AI chatbot right */
+    /* ===================
+       Main Layout
+       =================== */
     main {
       flex: 1;
       padding: 25px 40px;
       display: grid;
-      grid-template-columns: 2fr 1fr; /* left → finance section, right → chatbot */
+      grid-template-columns: 2fr 1fr;
       gap: 35px;
       max-width: 1250px;
       margin: 20px auto;
@@ -92,7 +103,9 @@
       padding: 30px 35px;
     }
 
-    /* Chatbot container */
+    /* ===================
+       Chatbot
+       =================== */
     .chatbot-container {
       display: flex;
       flex-direction: column;
@@ -182,7 +195,9 @@
       box-shadow: 0 3px 8px rgba(15, 52, 96, 0.2);
     }
 
-    /* Summary Cards */
+    /* ===================
+       Summary Cards
+       =================== */
     .summary-cards {
       display: flex;
       gap: 25px;
@@ -200,19 +215,64 @@
     .card h3 { margin: 0 0 12px; font-size: 20px; }
     .card p { font-size: 32px; font-weight: 800; margin: 0; }
 
-    form {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
+    /* ===================
+       Forms & Charts
+       =================== */
+    .finance-form {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
       margin-bottom: 36px;
     }
-    form input, form select, form button {
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .form-group label {
+      font-weight: 600;
+      color: #333;
+    }
+    .finance-form select,
+    .finance-form input {
       font-size: 16px;
       padding: 14px 18px;
       border-radius: 12px;
+      border: 1.8px solid #ccc;
+    }
+    .finance-form input[type="text"],
+    .finance-form input[type="number"] {
+      padding-left: 45px;
+    }
+    .form-group .input-icon {
+      position: relative;
+    }
+    .form-group .input-icon i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #999;
+    }
+    .form-submit-group {
+      grid-column: 1 / -1;
+      text-align: center;
+    }
+    .finance-form button {
+      padding: 14px 30px;
+      border: none;
+      border-radius: 12px;
+      background-color: #0f3460;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      width: 100%;
+    }
+    .finance-form button:hover {
+      background-color: #16213e;
     }
 
-    /* Chart section with pie chart */
     .chart-section {
       display: flex;
       justify-content: space-between;
@@ -226,12 +286,119 @@
       max-width: 280px;
       margin: 0 auto;
     }
+    /* New styles for the three-column grid layout */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 35px;
+    }
+    .main-content {
+      display: flex;
+      flex-direction: column;
+      gap: 35px;
+    }
+    .goals-container {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      padding: 30px 35px;
+    }
+    .goals-container .goal {
+      border-left: 5px solid #00b894;
+      padding: 15px 20px;
+      margin-bottom: 20px;
+      background-color: #f7faff;
+      border-radius: 8px;
+    }
+    .goals-container .goal-title {
+      font-weight: 600;
+      font-size: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .goals-container .goal-details {
+      margin-top: 5px;
+      color: #555;
+      font-size: 14px;
+    }
+    .goals-container .goal-progress {
+      margin-top: 10px;
+      height: 10px;
+      background-color: #e0e0e0;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    .goals-container .progress-bar {
+      height: 100%;
+      background-color: #00b894;
+      transition: width 0.5s ease-in-out;
+    }
+    .goals-container .delete-goal-btn {
+      background: none;
+      border: none;
+      color: #e94560;
+      cursor: pointer;
+    }
 
-    /* Dark mode styles */
+
+    /* ===================
+       Transaction Log
+       =================== */
+    .transaction-log {
+      margin-top: 40px;
+    }
+    .transaction-log table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .transaction-log th, .transaction-log td {
+      padding: 15px;
+      text-align: left;
+    }
+    .transaction-log th {
+      background: #0f3460;
+      color: white;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 14px;
+    }
+    .transaction-log tr:nth-child(even) {
+      background: #f8f8f8;
+    }
+    .transaction-log tr:hover {
+      background: #f1f1f1;
+    }
+    .transaction-log .income-row { color: #00b894; font-weight: 600; }
+    .transaction-log .expense-row { color: #e94560; font-weight: 600; }
+    .transaction-log .delete-btn {
+      background: none;
+      border: none;
+      color: #e94560;
+      font-size: 18px;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+    .transaction-log .delete-btn:hover {
+      color: #b8002a;
+    }
+    .transaction-log .no-transactions {
+      text-align: center;
+      padding: 20px;
+      color: #777;
+      font-style: italic;
+    }
+
+    /* ===================
+       Dark Mode Styles
+       =================== */
     body.dark {
       background: #1c1c2b;
       color: #f1f1f1;
-      font-size: 17px;
     }
     body.dark header, 
     body.dark nav, 
@@ -244,7 +411,44 @@
     body.dark nav a { color: #cfd4e4; }
     body.dark nav a.active, 
     body.dark nav a:hover { background-color: #e94560; color: white; }
+    body.dark .finance-form button { background-color: #e94560; }
+    body.dark .finance-form button:hover { background-color: #b8002a; }
+    body.dark .finance-form .form-group label { color: #f1f1f1; }
+    body.dark .finance-form .input-icon i { color: #aaa; }
+    body.dark .transaction-log th { background: #33334d; }
+    body.dark .transaction-log tr:nth-child(even) { background: #2f2f45; }
+    body.dark .transaction-log tr:hover { background: #3b3b55; }
+    body.dark .transaction-log .no-transactions { color: #aaa; }
+    body.dark .goals-container { background-color: #2a2a3d; }
+    body.dark .goals-container .goal { background-color: #33334d; border-color: #00997a; }
+    body.dark .goals-container .goal-details { color: #ddd; }
+
+
+    /* ===================
+       Responsive Design
+       =================== */
+    @media (max-width: 900px) {
+      main {
+        grid-template-columns: 1fr;
+        padding: 20px;
+        gap: 20px;
+      }
+      .finance-form {
+        grid-template-columns: 1fr;
+      }
+      .form-submit-group {
+        grid-column: 1 / 2;
+      }
+      .chart-section {
+        flex-direction: column;
+      }
+      .chart-section > div {
+        flex: none;
+        width: 100%;
+      }
+    }
   </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 </head>
 <body>
   <header>
@@ -252,7 +456,9 @@
     <div class="theme-toggle">
       <label class="switch">
         <input type="checkbox" id="theme-toggle">
-        <span class="slider round"></span>
+        <span class="slider round">
+          <i class="fa-solid fa-moon"></i>
+        </span>
       </label>
     </div>
     <button class="logout-btn" id="logout-btn">Logout</button>
@@ -266,51 +472,126 @@
     <a href="settings.html">Settings</a>
   </nav>
 
-  <main>
-    <!-- ✅ Left Column: Finance -->
-    <section>
-      <h2>Financial Overview</h2>
-      <div class="summary-cards">
-        <div class="card income"><h3>Total Income</h3><p id="total-income">₹0</p></div>
-        <div class="card expense"><h3>Total Expenses</h3><p id="total-expenses">₹0</p></div>
-        <div class="card savings"><h3>Savings</h3><p id="total-savings">₹0</p></div>
-      </div>
-      <form id="finance-form">
-        <select id="type" required>
-          <option value="" disabled selected>Select Type</option>
-          <option value="income">Income</option>
-          <option value="expense">Expense</option>
-        </select>
-        <input type="number" id="amount" placeholder="Amount (₹)" min="1" required />
-        <input type="text" id="category" placeholder="Category" required />
-        <input type="date" id="date" required />
-        <button type="submit">Add</button>
-      </form>
-      <div class="chart-section">
-        <div style="flex:2;">
-          <h3>Monthly Income vs Expenses</h3>
-          <canvas id="finance-chart" height="220"></canvas>
+  <main class="main-grid">
+    <div class="main-content">
+      <section>
+        <h2>Financial Overview</h2>
+        <div class="summary-cards">
+          <div class="card income"><h3>Total Income</h3><p id="total-income">₹0</p></div>
+          <div class="card expense"><h3>Total Expenses</h3><p id="total-expenses">₹0</p></div>
+          <div class="card savings"><h3>Savings</h3><p id="total-savings">₹0</p></div>
         </div>
-        <div style="flex:1; text-align:center;">
-          <h3>Income vs Expense Ratio</h3>
-          <canvas id="pie-chart" height="220"></canvas>
+        
+        <form id="finance-form" class="finance-form">
+          <div class="form-group">
+            <label for="type">Transaction Type</label>
+            <select id="type" required>
+              <option value="" disabled selected>Select Type</option>
+              <option value="income">Income</option>
+              <option value="expense">Expense</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="amount">Amount</label>
+            <div class="input-icon">
+              <i class="fa-solid fa-indian-rupee-sign"></i>
+              <input type="number" id="amount" placeholder="e.g., 5000" min="1" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="category">Category</label>
+            <div class="input-icon">
+              <i class="fa-solid fa-sack-dollar"></i>
+              <input type="text" id="category" placeholder="e.g., Salary, Groceries" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="date">Date</label>
+            <div class="input-icon">
+              <i class="fa-solid fa-calendar-days"></i>
+              <input type="date" id="date" required />
+            </div>
+          </div>
+          <div class="form-submit-group">
+            <button type="submit">Add Transaction</button>
+          </div>
+        </form>
+        
+        <div class="chart-section">
+          <div style="flex:2;">
+            <h3>Monthly Income vs Expenses</h3>
+            <canvas id="finance-chart" height="220"></canvas>
+          </div>
+          <div style="flex:1; text-align:center;">
+            <h3>Income vs Expense Ratio</h3>
+            <canvas id="pie-chart" height="220"></canvas>
+          </div>
         </div>
-      </div>
-    </section>
+        
+        <div class="transaction-log">
+          <h3>Recent Transactions</h3>
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Category</th>
+                  <th>Amount</th>
+                  <th>Type</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="transaction-table-body">
+                <tr class="no-transactions" id="no-transactions-row">
+                  <td colspan="5">No transactions recorded yet.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
 
-    <!-- ✅ Right Column: AI Chatbot -->
-    <section class="chatbot-container">
-      <div class="chat-header">AI Financial Coach</div>
-      <div class="chat-messages" id="chat-messages">
-        <div class="message bot">
-          <div class="msg-content">Hi! I’m your financial coach bot. Ask me about budgeting, saving, or managing your gig income.</div>
+    <div class="right-sidebar">
+      <section class="goals-container">
+        <h3>Financial Goals</h3>
+        <form id="goals-form" class="finance-form">
+          <div class="form-group">
+            <label for="goal-name">Goal Name</label>
+            <div class="input-icon">
+              <i class="fa-solid fa-bullseye"></i>
+              <input type="text" id="goal-name" placeholder="e.g., Car down payment" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="goal-target-amount">Target Amount</label>
+            <div class="input-icon">
+              <i class="fa-solid fa-indian-rupee-sign"></i>
+              <input type="number" id="goal-target-amount" placeholder="e.g., 500000" min="1" required />
+            </div>
+          </div>
+          <div class="form-submit-group">
+            <button type="submit">Set Goal</button>
+          </div>
+        </form>
+        
+        <div id="goals-list">
+          </div>
+      </section>
+      
+      <section class="chatbot-container">
+        <div class="chat-header">AI Financial Coach</div>
+        <div class="chat-messages" id="chat-messages">
+          <div class="message bot">
+            <div class="msg-content">Hi! I’m your financial coach bot. Ask me about budgeting, saving, or managing your gig income.</div>
+          </div>
         </div>
-      </div>
-      <form id="chat-form" class="chat-input-area" autocomplete="off">
-        <input type="text" id="chat-input" placeholder="Ask me anything about your finances..." required />
-        <button type="submit">Send</button>
-      </form>
-    </section>
+        <form id="chat-form" class="chat-input-area" autocomplete="off">
+          <input type="text" id="chat-input" placeholder="Ask me anything about your finances..." required />
+          <button type="submit">Send</button>
+        </form>
+      </section>
+    </div>
   </main>
 
   <script>
@@ -318,65 +599,210 @@
     if (!loggedInUser) window.location.href = 'login.html';
 
     let finances = JSON.parse(localStorage.getItem('finances_' + loggedInUser.email)) || [];
+    let goals = JSON.parse(localStorage.getItem('goals_' + loggedInUser.email)) || [];
 
     const totalIncomeEl = document.getElementById('total-income');
     const totalExpensesEl = document.getElementById('total-expenses');
     const totalSavingsEl = document.getElementById('total-savings');
+    const transactionTableBody = document.getElementById('transaction-table-body');
+    const noTransactionsRow = document.getElementById('no-transactions-row');
+    const goalsList = document.getElementById('goals-list');
     const ctx = document.getElementById('finance-chart').getContext('2d');
     const pieCtx = document.getElementById('pie-chart').getContext('2d');
     let financeChart, pieChart;
 
+    function saveFinances() {
+      localStorage.setItem('finances_' + loggedInUser.email, JSON.stringify(finances));
+      updateSummary();
+      updateChart();
+      renderTransactions();
+      renderGoals();
+    }
+    
+    function saveGoals() {
+      localStorage.setItem('goals_' + loggedInUser.email, JSON.stringify(goals));
+      renderGoals();
+    }
+
     function updateSummary() {
       const income = finances.filter(f => f.type === 'income').reduce((s, f) => s + f.amount, 0);
       const expense = finances.filter(f => f.type === 'expense').reduce((s, f) => s + f.amount, 0);
+      const savings = income - expense;
       totalIncomeEl.textContent = '₹' + income.toFixed(2);
       totalExpensesEl.textContent = '₹' + expense.toFixed(2);
-      totalSavingsEl.textContent = '₹' + (income - expense).toFixed(2);
+      totalSavingsEl.textContent = '₹' + savings.toFixed(2);
       updatePieChart(income, expense);
+      renderGoals(savings);
     }
 
     function updateChart() {
       const incomeByMonth = {}, expenseByMonth = {};
       finances.forEach(({ type, amount, date }) => {
-        const month = date.slice(0,7);
-        if(type === 'income') incomeByMonth[month] = (incomeByMonth[month] || 0) + amount;
+        const month = date.slice(0, 7);
+        if (type === 'income') incomeByMonth[month] = (incomeByMonth[month] || 0) + amount;
         else expenseByMonth[month] = (expenseByMonth[month] || 0) + amount;
       });
-      const months = []; const now = new Date();
-      for(let i=5;i>=0;i--){ const d=new Date(now.getFullYear(),now.getMonth()-i,1); months.push(d.toISOString().slice(0,7)); }
-      const incomeData = months.map(m=>incomeByMonth[m]||0);
-      const expenseData = months.map(m=>expenseByMonth[m]||0);
-      if(financeChart) financeChart.destroy();
-      financeChart=new Chart(ctx,{type:'bar',data:{labels:months,datasets:[{label:'Income',data:incomeData,backgroundColor:'#0f3460'},{label:'Expense',data:expenseData,backgroundColor:'#e94560'}]},options:{responsive:true}});
-    }
-
-    function updatePieChart(income, expense){
-      if(pieChart) pieChart.destroy();
-      pieChart = new Chart(pieCtx, {
-        type:'pie',
-        data:{
-          labels:['Income','Expenses'],
-          datasets:[{data:[income,expense],backgroundColor:['#0f3460','#e94560']}]
+      const months = [];
+      const now = new Date();
+      for (let i = 5; i >= 0; i--) {
+        const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+        months.push(d.toISOString().slice(0, 7));
+      }
+      const incomeData = months.map(m => incomeByMonth[m] || 0);
+      const expenseData = months.map(m => expenseByMonth[m] || 0);
+      if (financeChart) financeChart.destroy();
+      financeChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: months,
+          datasets: [{
+            label: 'Income',
+            data: incomeData,
+            backgroundColor: '#0f3460'
+          }, {
+            label: 'Expense',
+            data: expenseData,
+            backgroundColor: '#e94560'
+          }]
+        },
+        options: {
+          responsive: true
         }
       });
     }
 
-    document.getElementById('finance-form').addEventListener('submit', e=>{
+    function updatePieChart(income, expense) {
+      if (pieChart) pieChart.destroy();
+      pieChart = new Chart(pieCtx, {
+        type: 'pie',
+        data: {
+          labels: ['Income', 'Expenses'],
+          datasets: [{
+            data: [income, expense],
+            backgroundColor: ['#0f3460', '#e94560']
+          }]
+        }
+      });
+    }
+
+    function renderTransactions() {
+      transactionTableBody.innerHTML = '';
+      if (finances.length === 0) {
+        noTransactionsRow.style.display = 'table-row';
+        transactionTableBody.appendChild(noTransactionsRow);
+      } else {
+        noTransactionsRow.style.display = 'none';
+        finances.slice().reverse().forEach((transaction, index) => {
+          const row = document.createElement('tr');
+          const originalIndex = finances.length - 1 - index;
+          const typeIcon = transaction.type === 'income' ? '<i class="fa-solid fa-arrow-up" style="color:#00b894;"></i>' : '<i class="fa-solid fa-arrow-down" style="color:#e94560;"></i>';
+          const typeClass = transaction.type === 'income' ? 'income-row' : 'expense-row';
+          row.innerHTML = `
+            <td>${transaction.date}</td>
+            <td>${transaction.category}</td>
+            <td>₹${transaction.amount.toFixed(2)}</td>
+            <td class="${typeClass}">${typeIcon} ${transaction.type.toUpperCase()}</td>
+            <td><button class="delete-btn" data-index="${originalIndex}"><i class="fa-solid fa-trash-can"></i></button></td>
+          `;
+          transactionTableBody.appendChild(row);
+        });
+      }
+    }
+    
+    // New function to render financial goals
+    function renderGoals(currentSavings = 0) {
+        goalsList.innerHTML = '';
+        if (goals.length === 0) {
+            goalsList.innerHTML = '<p class="no-transactions" style="text-align:left;">No financial goals set yet.</p>';
+            return;
+        }
+
+        goals.forEach((goal, index) => {
+            const progress = (currentSavings / goal.target) * 100;
+            const progressPercentage = Math.min(100, progress).toFixed(0);
+            const goalElement = document.createElement('div');
+            goalElement.classList.add('goal');
+            goalElement.innerHTML = `
+                <div class="goal-title">
+                    <span>${goal.name}</span>
+                    <button class="delete-goal-btn" data-index="${index}"><i class="fa-solid fa-trash-can"></i></button>
+                </div>
+                <div class="goal-details">
+                    <span>₹${currentSavings.toFixed(2)} / ₹${goal.target.toFixed(2)}</span>
+                    <span style="float:right;">${progressPercentage}%</span>
+                </div>
+                <div class="goal-progress">
+                    <div class="progress-bar" style="width: ${progressPercentage}%;"></div>
+                </div>
+            `;
+            goalsList.appendChild(goalElement);
+        });
+    }
+
+    // Event listeners
+    transactionTableBody.addEventListener('click', (e) => {
+      if (e.target.closest('.delete-btn')) {
+        const index = e.target.closest('.delete-btn').dataset.index;
+        if (confirm('Are you sure you want to delete this transaction?')) {
+          finances.splice(index, 1);
+          saveFinances();
+        }
+      }
+    });
+    
+    goalsList.addEventListener('click', (e) => {
+      if (e.target.closest('.delete-goal-btn')) {
+        const index = e.target.closest('.delete-goal-btn').dataset.index;
+        if (confirm('Are you sure you want to delete this goal?')) {
+          goals.splice(index, 1);
+          saveGoals();
+        }
+      }
+    });
+
+    document.getElementById('finance-form').addEventListener('submit', e => {
       e.preventDefault();
-      const type=e.target.type.value, amount=parseFloat(e.target.amount.value), category=e.target.category.value, date=e.target.date.value;
-      if(!type||!amount||!category||!date) return alert('Please fill all fields');
-      finances.push({type,amount,category,date});
-      localStorage.setItem('finances_'+loggedInUser.email,JSON.stringify(finances));
+      const type = e.target.type.value,
+        amount = parseFloat(e.target.amount.value),
+        category = e.target.category.value,
+        date = e.target.date.value;
+      if (!type || !amount || !category || !date) return alert('Please fill all fields');
+      finances.push({
+        type,
+        amount,
+        category,
+        date
+      });
+      saveFinances();
       e.target.reset();
-      updateSummary(); updateChart();
+    });
+    
+    document.getElementById('goals-form').addEventListener('submit', e => {
+      e.preventDefault();
+      const name = e.target['goal-name'].value;
+      const target = parseFloat(e.target['goal-target-amount'].value);
+      if (!name || !target) return alert('Please fill all fields');
+      goals.push({ name, target });
+      saveGoals();
+      e.target.reset();
     });
 
     // Theme toggle
-    document.getElementById('theme-toggle').addEventListener('change', e=>{
+    document.getElementById('theme-toggle').addEventListener('change', e => {
       document.body.classList.toggle('dark', e.target.checked);
     });
 
-    updateSummary(); updateChart();
+    // Logout button functionality
+    document.getElementById('logout-btn').addEventListener('click', () => {
+      localStorage.removeItem('loggedInUser');
+      window.location.href = 'login.html';
+    });
+
+    // Initial data load and rendering
+    updateSummary();
+    updateChart();
+    renderTransactions();
+    renderGoals(finances.filter(f => f.type === 'income').reduce((s, f) => s + f.amount, 0) - finances.filter(f => f.type === 'expense').reduce((s, f) => s + f.amount, 0));
   </script>
 </body>
 </html>
