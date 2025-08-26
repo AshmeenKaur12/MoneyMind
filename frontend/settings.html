@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Settings - Smart Finance Coach</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f5f7fc; /* Light background like in screenshot */
+      min-height: 100vh;
+      color: #222;
+    }
+
+    /* Header */
+    header {
+      background: #1b1f3a;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 28px;
+    }
+    header h1 {
+      font-size: 22px;
+      font-weight: 700;
+    }
+    .logout-btn {
+      background: #e63946;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .logout-btn:hover { background: #c92d3b; }
+
+    /* Navigation */
+    nav {
+      background: #262d55;
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      padding: 14px;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 8px;
+      transition: background 0.3s;
+    }
+    nav a:hover {
+      background: #343c66;
+    }
+    nav a.active {
+      background: #e63946;
+      color: #fff;
+    }
+
+    /* Container */
+    .container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 16px;
+      max-width: 600px;
+      width: 100%;
+      box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+      color: #222;
+      margin: 40px auto;
+    }
+    h2 {
+      margin-bottom: 25px;
+      color: #1b1f3a;
+      font-size: 26px;
+      text-align: center;
+    }
+    .section {
+      margin-bottom: 30px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 20px;
+    }
+    .section:last-child { border-bottom: none; }
+    .section h3 {
+      font-size: 18px;
+      color: #1b1f3a;
+      margin-bottom: 12px;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+      font-size: 14px;
+      color: #333;
+    }
+    select, input[type="checkbox"] {
+      margin-bottom: 15px;
+    }
+    select {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1.6px solid #bbb;
+      font-size: 15px;
+    }
+    button {
+      background: #1b1f3a;
+      color: #fff;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 10px;
+    }
+    button:hover { background: #262d55; }
+    .save-msg {
+      display: none;
+      margin-top: 10px;
+      color: #388e3c;
+      font-weight: 600;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Smart Finance Coach</h1>
+    <button class="logout-btn" id="logout-btn">Logout</button>
+  </header>
+
+  <nav>
+    <a href="index.html">Dashboard</a>
+    <a href="transactions.html">Transactions</a>
+    <a href="reports.html">Reports</a>
+    <a href="profile.html">Profile</a>
+    <a href="settings.html" class="active">Settings</a>
+  </nav>
+
+  <div class="container">
+    <h2>App Settings</h2>
+
+    <!-- Appearance -->
+    <div class="section">
+      <h3>Appearance</h3>
+      <label for="theme">Choose Theme</label>
+      <select id="theme">
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+        <option value="system">System Default</option>
+      </select>
+    </div>
+
+    <!-- Notifications -->
+    <div class="section">
+      <h3>Notifications</h3>
+      <label><input type="checkbox" id="alerts" /> Enable Spending Alerts</label>
+      <label><input type="checkbox" id="reminders" /> Payment Due Reminders</label>
+      <label><input type="checkbox" id="news" /> Financial Tips & News</label>
+    </div>
+
+    <!-- Security -->
+    <div class="section">
+      <h3>Security</h3>
+      <label><input type="checkbox" id="2fa" /> Enable Two-Factor Authentication (2FA)</label>
+    </div>
+
+    <!-- Data & Privacy -->
+    <div class="section">
+      <h3>Data & Privacy</h3>
+      <button onclick="exportData()">Export My Data</button>
+      <button onclick="deleteAccount()" style="background:#d32f2f; margin-left:10px;">Delete Account</button>
+    </div>
+
+    <button onclick="saveSettings()">Save All Settings</button>
+    <div id="settings-msg" class="save-msg">Settings saved successfully!</div>
+  </div>
+
+  <script>
+    function saveSettings() {
+      document.getElementById('settings-msg').style.display = 'block';
+      setTimeout(() => {
+        document.getElementById('settings-msg').style.display = 'none';
+      }, 2000);
+    }
+    function exportData() {
+      alert("Your data export will be prepared and emailed to you.");
+    }
+    function deleteAccount() {
+      if (confirm("Are you sure you want to delete your account? This cannot be undone.")) {
+        alert("Account deletion request sent.");
+      }
+    }
+  </script>
+</body>
+</html>
