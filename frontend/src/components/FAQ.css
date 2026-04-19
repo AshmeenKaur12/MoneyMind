@@ -1,0 +1,108 @@
+/* FAQ SECTION STYLING */
+.faq-page {
+  padding: 80px 20px;
+  min-height: 100vh;
+  background-color: #F7FAF7; /* Soft Mint Background */
+  font-family: 'Inter', sans-serif;
+}
+
+.faq-container {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.faq-header-section {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.leaf-icon {
+  font-size: 40px;
+  margin-bottom: 15px;
+}
+
+.faq-header-section h1 {
+  font-size: 2.2rem;
+  margin: 0;
+  color: #1b5e20; /* Darker Forest Green */
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.faq-header-section p {
+  color: #636e72;
+  font-family: 'Inter', sans-serif;
+  font-size: 1.05rem;
+  margin-top: 10px;
+}
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding-top: 20px;
+}
+
+.faq-card {
+  background: #ffffff;
+  border: 1.5px solid #E8F0E8;
+  border-radius: 20px;
+  padding: 22px 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.01);
+}
+
+.faq-card:hover {
+  border-color: #4CAF50; /* Blossom Green */
+  transform: translateY(-2px);
+}
+
+.faq-card.active {
+  border-color: #4CAF50;
+  background-color: #fafffa;
+}
+
+.faq-question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: #2D3436; /* Dark Leaf Grey */
+}
+
+.faq-toggle-icon {
+  color: #4CAF50;
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+/* ACCORDION ANIMATION */
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out, opacity 0.3s ease;
+  opacity: 0;
+}
+
+.faq-answer.show {
+  max-height: 500px;
+  opacity: 1;
+}
+
+.answer-content {
+  padding-top: 15px;
+  margin-top: 15px;
+  border-top: 1px solid #E8F0E8;
+  color: #636e72;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.faq-footer {
+  text-align: center;
+  margin-top: 80px;
+  color: #b2bec3;
+  font-size: 0.85rem;
+}

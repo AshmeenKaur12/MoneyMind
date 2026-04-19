@@ -1,0 +1,19 @@
+# ML Models (VERY IMPORTANT)
+*.pkl
+*.keras
+*.h5
+*.joblib
+
+backend/*.pkl
+backend/*.keras
+backend/*.h5
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Streamlit cache
+.streamlit/
+
+# OS files
+.DS_Store
