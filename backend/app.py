@@ -199,7 +199,6 @@ def extract_features(image):
 
     return features
 
-    return np.hstack([lbp1, lbp2, haralick, hist_hsv.flatten()])
 def predict_rf(image, rf_model, scaler, pca, le):
 
     features = extract_features(image)
